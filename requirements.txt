@@ -1,0 +1,8 @@
+pytest~=8.3.5
+requests~=2.32.3
+cbor2~=5.6.5
+PyYAML~=6.0.2
+jsonpath-ng~=1.7.0
+allure-pytest
+allure-python-commons~=2.14.0
+locust~=2.37.5

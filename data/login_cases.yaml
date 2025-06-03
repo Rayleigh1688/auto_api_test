@@ -1,0 +1,50 @@
+- name: 获取 OTP
+  method: POST
+  url: member/sms
+  content_type: cbor
+  params:
+    country_code: "63"
+    phone: "9888888050"
+  expected:
+    status_code: 200
+  asserts:
+    - path: $.status
+      equals: true
+    - path: $.data.id
+      exists: true
+  extract:
+    otp_id: $.data.id
+
+- name: 使用 OTP 登录
+  method: POST
+  url: member/otp/login
+  content_type: cbor
+  params:
+    code: "111111"
+    otp_id: "{{otp_id}}"
+  expected:
+    status_code: 200
+  asserts:
+    - path: $.status
+      equals: true
+  extract:
+    access_token: $.data
+
+- name: 使用 密码 登录
+  method: POST
+  url: member/login
+  content_type: cbor
+  params:
+    country_code: "+63"
+    phone: "9888888066"
+    password: "A12345679"
+  expected:
+    status_code: 200
+  asserts:
+    - path: $.status
+      equals: true
+  extract:
+    access_token: $.data
+
+
+#  集成locust 压测，与接口自动化使用相同用例文件，方便后期管理维护。

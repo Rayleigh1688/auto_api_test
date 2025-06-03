@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "🧼 清理旧的 Allure 报告..."
+rm -rf reports/allure-results reports/allure-report
+
+echo "✅ 正在执行测试..."
+PYTHONPATH=. pytest
+
+echo "📊 生成 Allure 报告 HTML..."
+allure generate reports/allure-results -o reports/allure-report --clean
+
+if [ $? -eq 0 ]; then
+  echo "🌐 打开 Allure 报告页面..."
+  allure open reports/allure-report
+else
+  echo "❌ Allure 报告生成失败，请检查测试执行或 Allure 安装情况。"
+fi
+
+# PYTHONPATH=. pytest -s --case=login
+
+
+# locust -f locust_main.py

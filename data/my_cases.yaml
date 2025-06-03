@@ -1,0 +1,15 @@
+- name: 使用 密码 登录
+  method: POST
+  url: member/login
+  content_type: cbor
+  params:
+    country_code: "+63"
+    phone: "9888888066"
+    password: "A12345679"
+  expected:
+    status_code: 200
+  asserts:
+    - path: $.status
+      equals: true
+  extract:
+    access_token: $.data
