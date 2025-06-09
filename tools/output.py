@@ -1,25 +1,18 @@
-import csv
+import pandas as pd
 
-# 模拟接口返回的数据
+# 你的原始数据
+data = {}
 
+# 提取所有日期的数据
+records = data["data"]["d"]
 
-
-# 提取列表数据
-response ={}
-records = response.get("data", {}).get("d", [])
+# 转换为 DataFrame
+df = pd.DataFrame(records)
 
 # 写入 CSV 文件
-with open("output.csv", mode="w", newline="", encoding="utf-8") as csv_file:
-    writer = csv.writer(csv_file)
-    # 写入表头
-    writer.writerow(["bill_no", "bet_amount", "net_amount"])
-    # 写入每行数据
-    for record in records:
-        writer.writerow([
-            record.get("bill_no", ""),
-            record.get("bet_amount", ""),
-            record.get("net_amount", ""),
-            record.get("net_amount", "")
-        ])
+df.to_csv("all_days_report.csv", index=False)
 
-print("✅ 数据已写入 output.csv")
+# 写入 Excel 文件
+df.to_excel("all_days_report.xlsx", index=False)
+
+print("所有日期的数据已导出为 CSV 和 Excel 文件。")
