@@ -16,7 +16,7 @@ else
   echo "❌ Allure 报告生成失败，请检查测试执行或 Allure 安装情况。"
 fi
 
-# PYTHONPATH=. pytest -s --case=login
+# PYTHONPATH=. pytest -s --case=login 1
 
 
 # locust -f locust_main.py
