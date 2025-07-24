@@ -17,17 +17,25 @@ def get_time_ranges():
     today_start = datetime.datetime.combine(now.date(), datetime.time.min, tzinfo=TZ)
     today_end = datetime.datetime.combine(now.date(), datetime.time.max, tzinfo=TZ)
 
+    # 昨天
     yesterday_date = now.date() - datetime.timedelta(days=1)
     yesterday_start = datetime.datetime.combine(yesterday_date, datetime.time.min, tzinfo=TZ)
     yesterday_end = datetime.datetime.combine(yesterday_date, datetime.time.max, tzinfo=TZ)
 
+    # 本周
     week_start = today_start - datetime.timedelta(days=today_start.weekday())
     week_end = week_start + datetime.timedelta(days=6, hours=23, minutes=59, seconds=59, microseconds=999999)
 
+    # 上周
+    last_week_end = week_start - datetime.timedelta(microseconds=1)  # 上周结束时间是本周开始前1微秒
+    last_week_start = last_week_end - datetime.timedelta(days=6, hours=23, minutes=59, seconds=59, microseconds=999999)
+
+    # 本月
     month_start = today_start.replace(day=1)
     last_day = calendar.monthrange(now.year, now.month)[1]
     month_end = today_start.replace(day=last_day, hour=23, minute=59, second=59, microsecond=999999)
 
+    # 上月
     if now.month == 1:
         last_month_year = now.year - 1
         last_month = 12
@@ -55,6 +63,10 @@ def get_time_ranges():
             "start": datetime_to_unix_ms(week_start),
             "end": datetime_to_unix_ms(week_end)
         },
+        "last_week": {
+            "start": datetime_to_unix_ms(last_week_start),
+            "end": datetime_to_unix_ms(last_week_end)
+        },
         "month": {
             "start": datetime_to_unix_ms(month_start),
             "end": datetime_to_unix_ms(month_end)
@@ -64,6 +76,7 @@ def get_time_ranges():
             "end": datetime_to_unix_ms(last_month_end)
         }
     }
+
 # 数据库查询，常用时间戳。
 if __name__ == "__main__":
     time_ranges = get_time_ranges()

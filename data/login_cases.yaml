@@ -4,7 +4,7 @@
   content_type: cbor
   params:
     country_code: "63"
-    phone: "9888888050"
+    phone: "9888888082"
   expected:
     status_code: 200
   asserts:
